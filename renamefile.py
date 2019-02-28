@@ -16,7 +16,7 @@ import time
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-VERSION = '0.0.8'
+VERSION = '0.0.9'
 DAUM_TV_SRCH = 'https://search.daum.net/search?w=tot&q=%s&rtmaxcoll=TVP'
 DAUM_TV_DETAIL = 'https://search.daum.net/search?w=tv&q=%s&irk=%s&irt=tv-program&DA=TVP'
 Settingfile = os.path.dirname(os.path.abspath(__file__)) + '/renamefile.json'
@@ -51,6 +51,7 @@ def renamefile(videodir):
             episode_title = None
             genre = '미분류'
             episode_number = []
+            bind_number = []
             episode_date = ''
             if os.path.exists(SourceFile.encode('utf-8')):
                 fileinfo = re.search('(.*?)(\.E(\d{1,}))?\.((\d{2})(\d{2})(\d{2}))\.(.*)\.(mp4|avi|mkv)', videofile.encode('utf-8'))
@@ -58,9 +59,10 @@ def renamefile(videodir):
                     file_title = fileinfo.group(1)
                     file_title = re.sub(r'[\\/:"*?<>|]+', '', file_title.encode('utf-8')).strip()
                     file_title = re.sub(r'  +', ' ', file_title.encode('utf-8')).strip()
-                    match = re.search('(.*) \d{1,}\-\d{1,}회 합본', file_title.encode('utf-8'))
+                    match = re.search('(.*) (\d{1,})\-(\d{1,})회 합본', file_title.encode('utf-8'))
                     if match:
                        file_title = match.group(1)
+                       bind_number = [match.group(2), match.group(3)]
                     file_number = fileinfo.group(3).lstrip('0') if fileinfo.group(3) else None
                     file_date = fileinfo.group(4)
                     file_year = fileinfo.group(4)
@@ -96,9 +98,9 @@ def renamefile(videodir):
                                             episode_number.append(episodeinfo.xpath('./a/span[@class="txt_episode"]')[0].text.strip().replace(u'회',''))
                             except: pass
                     except: pass
-
                     episode_title = file_title if not episode_title else episode_title
                     if len(episode_number):
+                        episode_number =  list(set(episode_number).intersection(bind_number)) if bind_number else episode_number
                         newvideofile = getname(episode_title, episode_number, file_date, file_etc, file_ext)
                     elif file_number:
                         newvideofile = getname(episode_title, file_number, file_date, file_etc, file_ext)
@@ -118,10 +120,10 @@ def renamefile(videodir):
                             if e.errno != errno.EEXIST:
                                 raise
                         print('Move %s to %s' %(SourceFile.encode('utf-8'), TargetFile.encode('utf-8')))
-                        shutil.move(SourceFile.encode('utf-8'), TargetFile.encode('utf-8'))
+                        pass #shutil.move(SourceFile.encode('utf-8'), TargetFile.encode('utf-8'))
                     else:
                         print('Move %s to %s' %(SourceFile.encode('utf-8'), DupeFile.encode('utf-8')))
-                        shutil.move(SourceFile.encode('utf-8'), DupeFile.encode('utf-8'))
+                        pass #shutil.move(SourceFile.encode('utf-8'), DupeFile.encode('utf-8'))
 
 def getname(title, number, date, etc, ext):
     season_number = 'S01' if IS_SEASON in ['Y', 'y'] else ''
