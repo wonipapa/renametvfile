@@ -16,12 +16,13 @@ import time
 reload(sys)
 sys.setdefaultencoding('utf8')
 
+VERSION = '0.0.7'
 DAUM_TV_SRCH = 'https://search.daum.net/search?w=tot&q=%s&rtmaxcoll=TVP'
 DAUM_TV_DETAIL = 'https://search.daum.net/search?w=tv&q=%s&irk=%s&irt=tv-program&DA=TVP'
 Settingfile = os.path.dirname(os.path.abspath(__file__)) + '/renamefile.json'
 JSON_FILE_ERROR = 'json 파일을 읽을 수 없습니다.'
 JSON_SYNTAX_ERROR = 'json 파일 형식이 잘못되었습니다.'
-VERSION = '0.0.6'
+
 try:
     with open(Settingfile) as f: # Read Channel Information file
         Settings = json.load(f)
@@ -69,7 +70,7 @@ def renamefile(videodir):
                         time.sleep(0.002)
                         tree = html.fromstring(page.content)
                         episode_title = tree.xpath('//div[@id="tvpColl"]//div[@class="head_cont"]//a[@class="tit_info"][last()]')[0].text.strip() if tree.xpath('//div[@id="tvpColl"]//div[@class="head_cont"]//a[@class="tit_info"][last()]') else ''
-                        genre = tree.xpath('//div[@class="head_cont"]/div[@class="summary_info"]/span[@class="txt_summary"][1]')[0].text.strip(). if tree.xpath('//div[@class="head_cont"]/div[@class="summary_info"]/span[@class="txt_summary"][1]') else '미분류'
+                        genre = tree.xpath('//div[@class="head_cont"]/div[@class="summary_info"]/span[@class="txt_summary"][1]')[0].text.strip().encode('utf-8') if tree.xpath('//div[@class="head_cont"]/div[@class="summary_info"]/span[@class="txt_summary"][1]') else '미분류'
                         year = tree.xpath('//div[@class="head_cont"]//span[@class="txt_summary"][last()]')[0].text if tree.xpath('//div[@class="head_cont"]//span[@class="txt_summary"][last()]') else ''
                         if year is not None:
                             match = re.search('(\d{4})\.\d*\.\d*~?', year.encode('utf-8').strip())
