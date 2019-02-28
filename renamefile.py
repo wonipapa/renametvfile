@@ -21,7 +21,7 @@ DAUM_TV_DETAIL = 'https://search.daum.net/search?w=tv&q=%s&irk=%s&irt=tv-program
 Settingfile = os.path.dirname(os.path.abspath(__file__)) + '/renamefile.json'
 JSON_FILE_ERROR = 'json 파일을 읽을 수 없습니다.'
 JSON_SYNTAX_ERROR = 'json 파일 형식이 잘못되었습니다.'
-#에피소드넘버가 없을 때 파일에피소드로 처리
+VERSION = '0.0.2'
 try:
     with open(Settingfile) as f: # Read Channel Information file
         Settings = json.load(f)
@@ -41,7 +41,7 @@ except ValueError:
     sys.exit()
 
 def renamefile(videodir):
-    for dirpaths, dirname, files in os.walk((os.path.normpath(videodir)), topdown=False):
+    for dirpaths, dirname, files in os.walk((os.path.normpath(videodir).encode('utf-8')), topdown=False):
         for filename in files:
             SourceFile  = os.path.join(dirpaths, filename).decode('utf-8')
             SourceDir   = os.path.dirname(SourceFile)
