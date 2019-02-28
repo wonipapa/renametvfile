@@ -16,7 +16,7 @@ import time
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 DAUM_TV_SRCH = 'https://search.daum.net/search?w=tot&q=%s&rtmaxcoll=TVP'
 DAUM_TV_DETAIL = 'https://search.daum.net/search?w=tv&q=%s&irk=%s&irt=tv-program&DA=TVP'
 Settingfile = os.path.dirname(os.path.abspath(__file__)) + '/renamefile.json'
@@ -104,6 +104,8 @@ def renamefile(videodir):
                         newvideofile = getname(episode_title, episode_number, file_date, file_etc, file_ext)
                     elif file_number:
                         newvideofile = getname(episode_title, file_number, file_date, file_etc, file_ext)
+                    elif len(bind_number) == 2:
+                        newvideofile = getname(episode_title, bind_number, file_date, file_etc, file_ext)    
                     else:
                         newvideofile = getname(episode_title, '', file_date, file_etc, file_ext)
                     if IS_GENRE in ['Y', 'y']:
