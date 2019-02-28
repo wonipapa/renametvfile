@@ -16,7 +16,7 @@ import time
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-VERSION = '0.0.9'
+VERSION = '0.1.0'
 DAUM_TV_SRCH = 'https://search.daum.net/search?w=tot&q=%s&rtmaxcoll=TVP'
 DAUM_TV_DETAIL = 'https://search.daum.net/search?w=tv&q=%s&irk=%s&irt=tv-program&DA=TVP'
 Settingfile = os.path.dirname(os.path.abspath(__file__)) + '/renamefile.json'
