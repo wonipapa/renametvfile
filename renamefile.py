@@ -120,10 +120,10 @@ def renamefile(videodir):
                             if e.errno != errno.EEXIST:
                                 raise
                         print('Move %s to %s' %(SourceFile.encode('utf-8'), TargetFile.encode('utf-8')))
-                        pass #shutil.move(SourceFile.encode('utf-8'), TargetFile.encode('utf-8'))
+                        shutil.move(SourceFile.encode('utf-8'), TargetFile.encode('utf-8'))
                     else:
                         print('Move %s to %s' %(SourceFile.encode('utf-8'), DupeFile.encode('utf-8')))
-                        pass #shutil.move(SourceFile.encode('utf-8'), DupeFile.encode('utf-8'))
+                        shutil.move(SourceFile.encode('utf-8'), DupeFile.encode('utf-8'))
 
 def getname(title, number, date, etc, ext):
     season_number = 'S01' if IS_SEASON in ['Y', 'y'] else ''
