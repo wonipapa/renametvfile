@@ -21,7 +21,7 @@ DAUM_TV_DETAIL = 'https://search.daum.net/search?w=tv&q=%s&irk=%s&irt=tv-program
 Settingfile = os.path.dirname(os.path.abspath(__file__)) + '/renamefile.json'
 JSON_FILE_ERROR = 'json 파일을 읽을 수 없습니다.'
 JSON_SYNTAX_ERROR = 'json 파일 형식이 잘못되었습니다.'
-VERSION = '0.0.3'
+VERSION = '0.0.4'
 try:
     with open(Settingfile) as f: # Read Channel Information file
         Settings = json.load(f)
@@ -50,13 +50,13 @@ def renamefile(videodir):
             genre = '미분류'
             episode_number = []
             episode_date = ''
-            if os.path.exists(SourceFile):
-                fileinfo = re.search('(.*?)(\.E(\d{1,}))?\.((\d{2})(\d{2})(\d{2}))\.(.*)\.(mp4|avi|mkv)', videofile)
+            if os.path.exists(SourceFile.encode('utf-8')):
+                fileinfo = re.search('(.*?)(\.E(\d{1,}))?\.((\d{2})(\d{2})(\d{2}))\.(.*)\.(mp4|avi|mkv)', videofile.encode('utf-8'))
                 if fileinfo:
                     file_title = fileinfo.group(1)
                     file_title = re.sub(r'[\\/:"*?<>|]+', '', file_title.encode('utf-8')).strip()
                     file_title = re.sub(r'  +', ' ', file_title.encode('utf-8')).strip()
-                    match = re.search('(.*) \d{1,}\-\d{1,}회 합본', file_title)
+                    match = re.search('(.*) \d{1,}\-\d{1,}회 합본', file_title.encode('utf-8'))
                     if match:
                        file_title = match.group(1)
                     file_number = fileinfo.group(3).lstrip('0') if fileinfo.group(3) else None
@@ -72,7 +72,7 @@ def renamefile(videodir):
                         genre = tree.xpath('//div[@class="head_cont"]/div[@class="summary_info"]/span[@class="txt_summary"][1]')[0].text.strip() if tree.xpath('//div[@class="head_cont"]/div[@class="summary_info"]/span[@class="txt_summary"][1]') else '미분류'
                         year = tree.xpath('//div[@class="head_cont"]//span[@class="txt_summary"][last()]')[0].text if tree.xpath('//div[@class="head_cont"]//span[@class="txt_summary"][last()]') else ''
                         if year is not None:
-                            match = re.search('(\d{4})\.\d*\.\d*~?', year.strip())
+                            match = re.search('(\d{4})\.\d*\.\d*~?', year.encode('utf-8').strip())
                             if match:
                                 try: year = match.group(1)
                                 except: year = ''
@@ -111,15 +111,15 @@ def renamefile(videodir):
                     DupeFile = os.path.join(DUPEDIR, newvideofile)
                     if not os.path.exists(TargetFile):
                         try:
-                            os.makedirs(os.path.dirname(TargetFile))
+                            os.makedirs(os.path.dirname(TargetFile.encode('utf-8')))
                         except OSError as e:
                             if e.errno != errno.EEXIST:
                                 raise
-                        print('Move %s to %s' %(SourceFile, TargetFile))
-                        pass #shutil.move(SourceFile, TargetFile)
+                        print('Move %s to %s' %(SourceFile.encode('utf-8'), TargetFile.encode('utf-8')))
+                        shutil.move(SourceFile.encode('utf-8'), TargetFile.encode('utf-8'))
                     else:
-                        print('Move %s to %s' %(SourceFile, DupeFile))
-                        pass #shutil.move(SourceFile, DupeFile)
+                        print('Move %s to %s' %(SourceFile.encode('utf-8'), DupeFile.encode('utf-8')))
+                        shutil.move(SourceFile.encode('utf-8'), DupeFile.encode('utf-8'))
 
 def getname(title, number, date, etc, ext):
     season_number = 'S01' if IS_SEASON in ['Y', 'y'] else ''
