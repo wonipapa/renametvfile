@@ -34,10 +34,10 @@ try:
         ZEROFILL    = Settings['ZEROFILL'] if 'ZEROFILL' in Settings else '2'
         DELIMITER   = Settings['DELIMITER'] if 'DELIMITER' in Settings else '.'
 except EnvironmentError:
-    printError("renamefile." + JSON_FILE_ERROR)
+    print("renamefile." + JSON_FILE_ERROR)
     sys.exit()
 except ValueError:
-    printError("renamefile." + JSON_SYNTAX_ERROR)
+    print("renamefile." + JSON_SYNTAX_ERROR)
     sys.exit()
 
 def renamefile(videodir):
