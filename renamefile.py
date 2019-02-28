@@ -59,7 +59,7 @@ def renamefile(videodir):
                     file_title = fileinfo.group(1)
                     file_title = re.sub(r'[\\/:"*?<>|]+', '', file_title.encode('utf-8')).strip()
                     file_title = re.sub(r'  +', ' ', file_title.encode('utf-8')).strip()
-                    match = re.search('(.*) (\d{1,})\-(\d{1,})회 합본', file_title.encode('utf-8'))
+                    match = re.search('(.*?)E?(\d{1,})(\-|~)E?(\d{1,}).*합본', file_title.encode('utf-8'))
                     if match:
                        file_title = match.group(1)
                        bind_number = [match.group(2), match.group(3)]
@@ -100,7 +100,7 @@ def renamefile(videodir):
                     except: pass
                     episode_title = file_title if not episode_title else episode_title
                     if len(episode_number):
-                        episode_number =  list(set(episode_number).intersection(bind_number)) if bind_number else episode_number
+                        episode_number =  list(set(episode_number).intersection(bind_number)) if len(bind_number) > 2 else episode_number
                         newvideofile = getname(episode_title, episode_number, file_date, file_etc, file_ext)
                     elif file_number:
                         newvideofile = getname(episode_title, file_number, file_date, file_etc, file_ext)
