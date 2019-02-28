@@ -21,7 +21,7 @@ DAUM_TV_DETAIL = 'https://search.daum.net/search?w=tv&q=%s&irk=%s&irt=tv-program
 Settingfile = os.path.dirname(os.path.abspath(__file__)) + '/renamefile.json'
 JSON_FILE_ERROR = 'json 파일을 읽을 수 없습니다.'
 JSON_SYNTAX_ERROR = 'json 파일 형식이 잘못되었습니다.'
-VERSION = '0.0.4'
+VERSION = '0.0.5'
 try:
     with open(Settingfile) as f: # Read Channel Information file
         Settings = json.load(f)
