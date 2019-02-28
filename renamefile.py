@@ -116,10 +116,10 @@ def renamefile(videodir):
                             if e.errno != errno.EEXIST:
                                 raise
                         print('Move %s to %s' %(SourceFile, TargetFile))
-                        shutil.move(SourceFile, TargetFile)
+                        pass #shutil.move(SourceFile, TargetFile)
                     else:
                         print('Move %s to %s' %(SourceFile, DupeFile))
-                        shutil.move(SourceFile, DupeFile)
+                        pass #shutil.move(SourceFile, DupeFile)
 
 def getname(title, number, date, etc, ext):
     season_number = 'S01' if IS_SEASON in ['Y', 'y'] else ''
