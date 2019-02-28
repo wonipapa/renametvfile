@@ -16,7 +16,7 @@ import time
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-VERSION = '0.0.7'
+VERSION = '0.0.8'
 DAUM_TV_SRCH = 'https://search.daum.net/search?w=tot&q=%s&rtmaxcoll=TVP'
 DAUM_TV_DETAIL = 'https://search.daum.net/search?w=tv&q=%s&irk=%s&irt=tv-program&DA=TVP'
 Settingfile = os.path.dirname(os.path.abspath(__file__)) + '/renamefile.json'
@@ -30,6 +30,7 @@ try:
         TARGETDIR   = Settings['TARGETDIR']
         DUPEDIR     = Settings['DUPEDIR']
         IS_GENRE    = Settings['IS_GENRE'] if 'IS_GENRE' in Settings else 'N'
+        IS_YEAR     = Settings['IS_YEAR'] if 'IS_YEAR' in Settings else 'N'
         IS_ETC      = Settings['IS_ETC'] if 'IS_ETC' in Settings else 'Y' 
         IS_SEASON   = Settings['IS_SEASON'] if 'IS_SEASON' in Settings else 'N';
         ZEROFILL    = Settings['ZEROFILL'] if 'ZEROFILL' in Settings else '2'
@@ -104,7 +105,7 @@ def renamefile(videodir):
                     else:
                         newvideofile = getname(episode_title, '', file_date, file_etc, file_ext)
                     if IS_GENRE in ['Y', 'y']:
-                        if year:
+                        if IS_YEAR in ['Y', 'y'] and year:
                             episode_title = episode_title + ' (' + year + ')'
                         TargetFile = os.path.join(TARGETDIR, genre, episode_title, newvideofile)
                     else:
