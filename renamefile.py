@@ -109,7 +109,7 @@ def renamefile(videodir):
                     else:
                         TargetFile = os.path.join(TARGETDIR, newvideofile)
                     DupeFile = os.path.join(DUPEDIR, newvideofile)
-                    if not os.path.exists(TargetFile):
+                    if not os.path.exists(TargetFile.encode('utf-8')):
                         try:
                             os.makedirs(os.path.dirname(TargetFile.encode('utf-8')))
                         except OSError as e:
