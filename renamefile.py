@@ -16,7 +16,7 @@ import time
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-VERSION = '0.1.1'
+VERSION = '0.1.2'
 DAUM_TV_SRCH = 'https://search.daum.net/search?w=tot&q=%s&rtmaxcoll=TVP'
 DAUM_TV_DETAIL = 'https://search.daum.net/search?w=tv&q=%s&irk=%s&irt=tv-program&DA=TVP'
 Settingfile = os.path.dirname(os.path.abspath(__file__)) + '/renamefile.json'
@@ -59,10 +59,10 @@ def renamefile(videodir):
                     file_title = fileinfo.group(1)
                     file_title = re.sub(r'[\\/:"*?<>|]+', '', file_title.encode('utf-8')).strip()
                     file_title = re.sub(r'  +', ' ', file_title.encode('utf-8')).strip()
-                    match = re.search('(.*?)E?(\d{1,})(\-|~)E?(\d{1,}).*합본', file_title.encode('utf-8'))
+                    match = re.search('(.*?)E?(\d{1,})(\-|~| )E?(\d{1,})(.*합본)?', file_title.encode('utf-8'))
                     if match:
                        file_title = match.group(1)
-                       bind_number = [match.group(2), match.group(3)]
+                       bind_number = [match.group(2), match.group(4)]
                     file_number = fileinfo.group(3).lstrip('0') if fileinfo.group(3) else None
                     file_date = fileinfo.group(4)
                     file_year = fileinfo.group(4)
@@ -100,7 +100,7 @@ def renamefile(videodir):
                     except: pass
                     episode_title = file_title if not episode_title else episode_title
                     if len(episode_number):
-                        episode_number =  list(set(episode_number).intersection(bind_number)) if len(bind_number) > 2 else episode_number
+                        episode_number =  list(set(episode_number).intersection(bind_number)) if len(episode_number) > 2 else episode_number
                         newvideofile = getname(episode_title, episode_number, file_date, file_etc, file_ext)
                     elif file_number:
                         newvideofile = getname(episode_title, file_number, file_date, file_etc, file_ext)
@@ -152,3 +152,4 @@ def getname(title, number, date, etc, ext):
     return newname
                 
 renamefile(DOWNLOADDIR)
+
